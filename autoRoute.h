@@ -31,6 +31,9 @@ class autoRoute
 		std::vector<size_t> matrixLimit;
 		std::vector<std::vector<int>> possibleOrigins;
 
+		std::vector<int> getNeighborNode(std::vector<int>*, int);
+		bool findDestiny(std::vector<int>*, std::vector<int>*);
+
 		void funCopyMatrix(std::vector<std::vector<char>>&);
 
 		void sortInterconnections(const std::vector<int>*, std::vector<std::vector<int>>*);

@@ -79,5 +79,119 @@ std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<
         sortInterconnections(&entry.first, &entry.second);
     }
 
+    for (auto& entry : interconnections)
+    {
+        possibleOrigins.push_back(entry.first);
+        for (auto& destiny : entry.second)
+        {
+            sortInterconnections(&destiny, &possibleOrigins);
+            for (auto& origin : possibleOrigins)
+            {
+                //Aca hay que llamar a una funcion que elimine todos los valores numericos dentro de copyMatriz 
+                isFind = findDestiny(&origin, &destiny);
+                if (isFind == true)
+                {
+                    //se llama a una funcion (llamemosma semiroute() ) que debe ir desde el desnio hasta el origen anterios completando con "P" en las casillas.
+                    //La funcion semiroute debe ademas añadir los puntos en los que pone "p" a la lista de possibleOrigins.
+                    break;
+                }
+            }
+            if (isFind == false)
+            {
+                //no pudo encontrar un camino y deberiamos emepezar de nuevo(LO DEJAMOS PARA EL FINAL)
+            }
+            else
+            {
+                isFind = false;
+                //se llama a la funcion route() que completa con la PISTA CORRESPONDIENTE en las casillas que alla una "P"
+            }
+        }
+    }
+
     return copyMatriz;
+}
+
+/*
+ * Esta mal la logica de los pasos, hay que pensar como hacerlo pero esta funcion creo que es la unica opcion.
+ * Esta funcion lo unico que hace es completar la matriz con los numeros de los pasos dados hasta encontrar el destino desde un cierto origen.
+ */
+bool autoRoute::findDestiny(std::vector<int>* origin, std::vector<int>* destiny)
+{
+    std::queue<std::vector<int>> q;
+    q.push(*origin);
+    int stepCounter = 0;
+
+    while (!q.empty())
+    {
+        std::vector<int> node = q.front();
+        q.pop();
+
+        for (int i = 0; i < 4; i++)
+        {
+            std::vector<int> neighborNode = getNeighborNode(&node, i);
+
+            if (neighborNode.empty())
+            {
+                continue;
+            }
+            else
+            {
+                char dataNode = copyMatriz[neighborNode[0]][neighborNode[1]];
+
+                if (dataNode == '.')
+                {
+                    q.push(neighborNode);
+                    stepCounter = static_cast<int>(copyMatriz[node[0]][node[1]]);
+                    copyMatriz[neighborNode[0]][neighborNode[1]] = static_cast<char>(stepCounter + 1);
+                }
+                else if (dataNode == '#')
+                {
+                    if (neighborNode[1] == (*destiny)[0] && neighborNode[2] == (*destiny)[1]) return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+/*
+ *
+ */
+std::vector<int> autoRoute::getNeighborNode(std::vector<int>* origin, int orientation)
+{
+    std::vector<int> node;
+    node.clear();
+    if (orientation == 0) //UP
+    {
+        if ((*origin)[0] > 0)
+        {
+            node[0] = (*origin)[0] - 1;
+            node[1] = (*origin)[1];
+        }
+    }
+    if (orientation == 1) //DOWN
+    {
+        if ((*origin)[0] < matrixLimit[0])
+        {
+            node[0] = (*origin)[0] + 1;
+            node[1] = (*origin)[1];
+        }
+    }
+    if (orientation == 0) //UP
+    {
+        if ((*origin)[1] > 0)
+        {
+            node[1] = (*origin)[1] - 1;
+            node[0] = (*origin)[0];
+        }
+    }
+    if (orientation == 1) //DOWN
+    {
+        if ((*origin)[1] < matrixLimit[0])
+        {
+            node[1] = (*origin)[1] + 1;
+            node[0] = (*origin)[0];
+        }
+    }
+    return node;
 }
