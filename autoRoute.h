@@ -21,9 +21,16 @@
 class autoRoute
 {
 	public:
+		std::vector<std::vector<char>> initAutoRoute(std::vector<std::vector<char>>& matriz,
+													 std::map<std::vector<int>, std::vector<std::vector<int>>>& interconnections);
 
 
 	private:
+		std::vector<std::vector<char>> copyMatriz;
+		std::vector<size_t> matrixLimit;
+		std::vector<std::vector<int>> possibleOrigins;
+
+		void funCopyMatrix(std::vector<std::vector<char>>&);
 
 		void sortInterconnections(std::vector<int>, std::vector<std::vector<int>>);
 		bool sortByDistance(const std::vector<int>&, const std::vector<int>&, const std::vector<int>&);

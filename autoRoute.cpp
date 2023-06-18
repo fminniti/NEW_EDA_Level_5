@@ -43,3 +43,41 @@ void autoRoute::sortInterconnections(std::vector<int> origin, std::vector<std::v
             return sortByDistance(p1, p2, origin);
         });
 }
+
+/*
+ *
+ */
+void autoRoute::funCopyMatrix(std::vector<std::vector<char>>& source)
+{
+    size_t rows = source.size();
+    size_t cols = source[0].size();
+
+    copyMatriz.resize(rows, std::vector<char>(cols));
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            copyMatriz[i][j] = source[i][j];
+        }
+    }
+
+    matrixLimit[0] = cols;
+    matrixLimit[1] = rows;
+}
+
+std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<char>>& matriz,
+    std::map<std::vector<int>, std::vector<std::vector<int>>>& interconnections)
+{
+    bool isFind = false;
+    std::vector<int> origin;
+
+    funCopyMatrix(matriz);
+
+    for (auto& entry : interconnections)
+    {
+        sortInterconnections(entry.first, entry.second);
+    }
+
+    return copyMatriz;
+}

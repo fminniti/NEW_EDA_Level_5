@@ -15,7 +15,7 @@
 #include <map>
 #include <string>
 
-//#include "autoRoute.h"
+#include "autoRoute.h"
 
 using namespace std;
 
@@ -73,7 +73,7 @@ void processFile(const std::string& nameFile,
             }
             else
             {
-                sscanf(linea.c_str(), "%d,%d", &X, &Y);
+                sscanf_s(linea.c_str(), "%d,%d", &X, &Y);
                 if (firstOfGrup)
                 {
                     key.push_back(X);
@@ -126,11 +126,11 @@ void printPCB(std::vector<std::vector<char>>& matriz,
 
 int main()
 {
-    //autoRoute router = autoRoute();
+    autoRoute router = autoRoute();
 
     processFile("C:/dev/NEW_EDA_Level_5/DC_DC_Buck_Converter.txt", matriz, interconnections);
 
-    //matriz = router.initAutoRoute(matriz, interconnections);
+    matriz = router.initAutoRoute(matriz, interconnections);
 
     printPCB(matriz, interconnections);
 
