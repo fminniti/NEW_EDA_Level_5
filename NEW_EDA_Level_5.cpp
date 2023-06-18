@@ -128,7 +128,7 @@ int main()
 {
     //autoRouter router = autoRouter();
 
-    processFile("C:/dev/EDA_Level_5/DC_DC_Buck_Converter.txt", matriz, interconnections);
+    processFile("C:/dev/NEW_EDA_Level_5/DC_DC_Buck_Converter.txt", matriz, interconnections);
 
     //matriz = router.initAutoRoute(matriz, interconnections);
 
