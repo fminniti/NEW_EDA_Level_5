@@ -37,8 +37,8 @@ bool autoRoute::sortByDistance(const std::vector<int>& p1, const std::vector<int
  */
 void autoRoute::sortInterconnections(std::vector<int> origin, std::vector<std::vector<int>> list)
 {
-    //std::vector<std::vector<int>>& points = *list;
-    std::sort(list.begin(), list.end(), [&](const std::vector<int>& p1, const std::vector<int>& p2)
+    std::vector<std::vector<int>>& points = list;
+    std::sort(points.begin(), points.end(), [&](const std::vector<int>& p1, const std::vector<int>& p2)
         {
             return sortByDistance(p1, p2, origin);
         });
@@ -62,8 +62,8 @@ void autoRoute::funCopyMatrix(std::vector<std::vector<char>>& source)
         }
     }
 
-    matrixLimit[0] = cols;
-    matrixLimit[1] = rows;
+    matrixLimit.push_back(cols);
+    matrixLimit.push_back(rows);
 }
 
 std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<char>>& matriz,
