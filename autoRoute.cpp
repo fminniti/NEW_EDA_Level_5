@@ -89,7 +89,6 @@ std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<
             {
                 //Aca hay que llamar a una funcion que elimine todos los valores numericos dentro de copyMatriz 
                 isFind = findDestiny(&origin, &destiny);
-                std::cout << "\n\nSALIO DE FINDESTINY\n\n";
                 if (isFind == true)
                 {
                     //se llama a una funcion (llamemosma semiroute() ) que debe ir desde el desnio hasta el origen anterios completando con "P" en las casillas.
@@ -154,26 +153,9 @@ bool autoRoute::findDestiny(std::vector<int>* origin, std::vector<int>* destiny)
                 }
                 else if (dataNode == '#')
                 {
-                    std::cout << "PAD:\n";
                     if ( (neighborNode[0] == (*destiny)[0]) && (neighborNode[1] == (*destiny)[1]) ) return true;
                 }
             }
-        }
-        std::cout << "\nMatriz:\n";
-        for (const auto& row : copyMatriz)
-        {
-            for (const auto& value : row)
-            {
-                if (value < 35)
-                {
-                    std::cout << static_cast<int>(value) << ' ';
-                }
-                else
-                {
-                    std::cout << value << ' ';
-                }
-            }
-            std::cout << '\n';
         }
     }
     return false;
@@ -186,45 +168,36 @@ std::vector<int> autoRoute::getNeighborNode(std::vector<int>* origin, int orient
 {
     std::vector<int> node;
     node.clear();
-    std::cout << "NODO: " << (*origin)[0] << "-" << (*origin)[1] << std::endl;
     if (orientation == 0) //UP
     {
         if ((*origin)[1] > 0)
         {
-            std::cout << "10.0:\n";
             node.push_back((*origin)[0]);
             node.push_back((*origin)[1] - 1); 
-            std::cout << "Vecino: " << node[0] << "-" << node[1] << std::endl;
         }
     }
     if (orientation == 1) //DOWN
     {
         if ((*origin)[1] < (matrixLimit[1]-1))
         {
-            std::cout << "10.1:\n";
             node.push_back((*origin)[0]);
             node.push_back((*origin)[1] + 1);
-            std::cout << "Vecino: " << node[0] << "-" << node[1] << std::endl;
         }
     }
     if (orientation == 2) //Left
     {
         if ((*origin)[0] > 0)
         {
-            std::cout << "10.2:\n";
             node.push_back((*origin)[0] - 1);
             node.push_back((*origin)[1]);
-            std::cout << "Vecino: " << node[0] << "-" << node[1] << std::endl;
         }
     }
     if (orientation == 3) //Right
     {
         if ((*origin)[0] < (matrixLimit[0]-1))
         {
-            std::cout << "10.3:\n";
             node.push_back((*origin)[0] + 1);
             node.push_back((*origin)[1]);
-            std::cout << "Vecino: " << node[0] << "-" << node[1] << std::endl;
         }
     }
     return node;
