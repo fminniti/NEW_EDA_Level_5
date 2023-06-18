@@ -35,12 +35,12 @@ bool autoRoute::sortByDistance(const std::vector<int>& p1, const std::vector<int
 /*
  * Función para ordenar los puntos de cada clave en el mapa por distancia euclidiana             FALTA VER DEJAMOS O NO LA FUNCION SORT
  */
-void autoRoute::sortInterconnections(std::vector<int> origin, std::vector<std::vector<int>> list)
+void autoRoute::sortInterconnections(const std::vector<int>* origin, std::vector<std::vector<int>>* list)
 {
-    std::vector<std::vector<int>>& points = list;
+    std::vector<std::vector<int>>& points = *list;
     std::sort(points.begin(), points.end(), [&](const std::vector<int>& p1, const std::vector<int>& p2)
         {
-            return sortByDistance(p1, p2, origin);
+            return sortByDistance(p1, p2, *origin);
         });
 }
 
@@ -76,7 +76,7 @@ std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<
 
     for (auto& entry : interconnections)
     {
-        sortInterconnections(entry.first, entry.second);
+        sortInterconnections(&entry.first, &entry.second);
     }
 
     return copyMatriz;

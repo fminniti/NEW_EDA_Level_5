@@ -33,7 +33,7 @@ class autoRoute
 
 		void funCopyMatrix(std::vector<std::vector<char>>&);
 
-		void sortInterconnections(std::vector<int>, std::vector<std::vector<int>>);
+		void sortInterconnections(const std::vector<int>*, std::vector<std::vector<int>>*);
 		bool sortByDistance(const std::vector<int>&, const std::vector<int>&, const std::vector<int>&);
 		double calculateDistance(const std::vector<int>&, const std::vector<int>&);
 
