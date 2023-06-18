@@ -15,7 +15,7 @@
 #include <map>
 #include <string>
 
-//#include "autoRouter.h"
+//#include "autoRoute.h"
 
 using namespace std;
 
@@ -126,7 +126,7 @@ void printPCB(std::vector<std::vector<char>>& matriz,
 
 int main()
 {
-    //autoRouter router = autoRouter();
+    //autoRoute router = autoRoute();
 
     processFile("C:/dev/NEW_EDA_Level_5/DC_DC_Buck_Converter.txt", matriz, interconnections);
 

@@ -12,7 +12,7 @@ endif()
 project ("NEW_EDA_Level_5")
 
 # Agregue un origen al ejecutable de este proyecto.
-add_executable (NEW_EDA_Level_5 "NEW_EDA_Level_5.cpp" )
+add_executable (NEW_EDA_Level_5 "NEW_EDA_Level_5.cpp"  "autoRoute.h" "autoRoute.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET NEW_EDA_Level_5 PROPERTY CXX_STANDARD 20)
