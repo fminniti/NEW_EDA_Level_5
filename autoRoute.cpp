@@ -91,8 +91,10 @@ std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<
                 isFind = findDestiny(&origin, &destiny);
                 if (isFind == true)
                 {
-                    //se llama a una funcion (llamemosma semiroute() ) que debe ir desde el desnio hasta el origen anterios completando con "P" en las casillas.
-                    //La funcion semiroute debe ademas añadir los puntos en los que pone "p" a la lista de possibleOrigins.
+                    semiRoute(origin,destiny);
+                    possibleOrigins.push_back(destiny);
+                    deleteNumb();
+                    printMat();
                     break;
                 }
             }
@@ -203,6 +205,25 @@ std::vector<int> autoRoute::getNeighborNode(std::vector<int>* origin, int orient
     return node;
 }
 
+void autoRoute::printMat()
+{
+    std::cout << "\nMatriz:\n";
+    for (const auto& row : copyMatriz)
+    {
+        for (const auto& value : row)
+        {
+            if (value < 35)
+            {
+                std::cout << static_cast<int>(value) << ' ';
+            }
+            else
+            {
+                std::cout << value << ' ';
+            }
+        }
+        std::cout << '\n';
+    }
+}
 
 /*
  * Funcion encargada de eliminar los numeros
@@ -216,6 +237,50 @@ void autoRoute::deleteNumb(void)
             if (element < 35)
             {
                 element = '.';
+            }
+        }
+    }
+}
+
+void autoRoute::semiRoute(std::vector<int> origin, std::vector<int> destiny)
+{
+    bool isOrigin = false;
+    std::vector<int> node = destiny;
+    std::vector<int> neighborNode;
+    char minValue = 127;
+
+    while (!isOrigin)
+    {
+        if( (node[1] != destiny[1]) || (node[0] != destiny[0]))
+        {
+            copyMatriz[node[1]][node[0]] = 'p';
+            possibleOrigins.push_back(node);
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            neighborNode = getNeighborNode(&node, i);
+            char dataNode = copyMatriz[neighborNode[1]][neighborNode[0]];
+
+            if (neighborNode.empty())
+            {
+                continue;
+            }
+            if (dataNode == '#')
+            {
+                if ((neighborNode[0] == origin[0]) && (neighborNode[1] == origin[1]))
+                {
+                    isOrigin = true;
+                    break;
+                }
+            }
+            else if (dataNode < 35)
+            {
+                if (dataNode < minValue)
+                {
+                    minValue = dataNode;
+                    node = neighborNode;
+                }
             }
         }
     }
