@@ -89,6 +89,7 @@ std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<
             {
                 deleteNumb();
                 isFind = findDestiny(&origin, &destiny);
+
                 if (isFind == true)
                 {
                     semiRoute(origin,destiny);
@@ -107,6 +108,7 @@ std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<
         {
             isFind = false;
             //se llama a la funcion route() que completa con la PISTA CORRESPONDIENTE en las casillas que alla una "P"
+            possibleOrigins.clear();
         }
     }
 
@@ -247,6 +249,7 @@ void autoRoute::semiRoute(std::vector<int> origin, std::vector<int> destiny)
     bool isOrigin = false;
     std::vector<int> node = destiny;
     std::vector<int> neighborNode;
+    std::vector<int> nextNeigbor;
     char minValue = 127;
 
     while (!isOrigin)
@@ -266,7 +269,7 @@ void autoRoute::semiRoute(std::vector<int> origin, std::vector<int> destiny)
             {
                 continue;
             }
-            if (dataNode == '#')
+            if (dataNode == '#' || dataNode == 'p')
             {
                 if ((neighborNode[0] == origin[0]) && (neighborNode[1] == origin[1]))
                 {
@@ -279,9 +282,10 @@ void autoRoute::semiRoute(std::vector<int> origin, std::vector<int> destiny)
                 if (dataNode < minValue)
                 {
                     minValue = dataNode;
-                    node = neighborNode;
+                    nextNeigbor = neighborNode;
                 }
             }
         }
+        node = nextNeigbor;
     }
 }
