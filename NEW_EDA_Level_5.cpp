@@ -128,9 +128,12 @@ int main()
 {
     autoRoute router = autoRoute();
 
-    processFile("C:/dev/NEW_EDA_Level_5/DC_DC_Buck_Converter.txt", matriz, interconnections);
+    cout << '┼' <<endl; 
+
+    processFile("D:/Codes/cpp/EDALVL5v2/NEW_EDA_Level_5/DC_DC_Buck_Converter.txt", matriz, interconnections);
 
     matriz = router.initAutoRoute(matriz, interconnections);
+
 
     printPCB(matriz, interconnections);
 
