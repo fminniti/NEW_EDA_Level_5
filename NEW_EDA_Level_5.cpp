@@ -124,15 +124,50 @@ void printPCB(std::vector<std::vector<char>>& matriz,
     }
 }
 
+void printPCB2(std::vector<std::vector<string>>& matriz,
+    std::map<std::vector<int>, std::vector<std::vector<int>>>& interconnections)
+{
+    // Imprimir los valores de la matriz
+    std::cout << "Matriz:\n";
+    for (const auto& row : matriz)
+    {
+        for (const auto& value : row)
+        {
+            std::cout << value << ' ';
+        }
+        std::cout << '\n';
+    }
+
+    // Imprimir los valores de las interconexiones
+    std::cout << "\nInterconexiones:\n";
+    for (const auto& entry : interconnections)
+    {
+        const std::vector<int>& pin = entry.first;
+        const std::vector<std::vector<int>>& connections = entry.second;
+
+        std::cout << "Pin: (" << pin[0] << ", " << pin[1] << ")\n";
+        std::cout << "Conexiones:\n";
+        for (const auto& connection : connections)
+        {
+            std::cout << "(" << connection[0] << ", " << connection[1] << ")\n";
+        }
+        std::cout << '\n';
+    }
+}
+
 int main()
 {
     autoRoute router = autoRoute();
+    vector<vector<string>> mat;
 
-    processFile("C:/dev/NEW_EDA_Level_5/DC_DC_Buck_Converter.txt", matriz, interconnections);
+    processFile("D:/Codes/cpp/EDALVL5v2/NEW_EDA_Level_5/DC_DC_Buck_Converter.txt", matriz, interconnections);
 
-    matriz = router.initAutoRoute(matriz, interconnections);
+    //creates last matrix
+    router.finalMat();
 
-    printPCB(matriz, interconnections);
+    mat = router.initAutoRoute(matriz, interconnections);
+
+    printPCB2(mat, interconnections);
 
     return 0;
 }

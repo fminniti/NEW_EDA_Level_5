@@ -5,15 +5,15 @@
  *           -
  *           -
  *
- * Enrutador autom�tico de pistas para PCB
+ * Enrutador autom�tico de pistas para PCB
  *
  */
 
  /* -------------------- Includes -------------------- */
 #include "autoRoute.h"
-
+using namespace std;
 /*
- * Funci�n para calcular la distancia euclidiana entre dos puntos
+ * Funci�n para calcular la distancia euclidiana entre dos puntos
  */
 double autoRoute::calculateDistance(const std::vector<int>& p1, const std::vector<int>& p2)
 {
@@ -23,7 +23,7 @@ double autoRoute::calculateDistance(const std::vector<int>& p1, const std::vecto
 }
 
 /*
- * Funci�n de comparaci�n para ordenar los puntos por distancia euclidiana
+ * Funci�n de comparaci�n para ordenar los puntos por distancia euclidiana
  */
 bool autoRoute::sortByDistance(const std::vector<int>& p1, const std::vector<int>& p2, const std::vector<int>& reference)
 {
@@ -33,7 +33,7 @@ bool autoRoute::sortByDistance(const std::vector<int>& p1, const std::vector<int
 }
 
 /*
- * Funci�n para ordenar los puntos de cada clave en el mapa por distancia euclidiana             FALTA VER DEJAMOS O NO LA FUNCION SORT
+ * Funci�n para ordenar los puntos de cada clave en el mapa por distancia euclidiana             FALTA VER DEJAMOS O NO LA FUNCION SORT
  */
 void autoRoute::sortInterconnections(const std::vector<int>* origin, std::vector<std::vector<int>>* list)
 {
@@ -66,11 +66,13 @@ void autoRoute::funCopyMatrix(std::vector<std::vector<char>>& source)
     matrixLimit.push_back(rows);
 }
 
-std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<char>>& matriz,
+std::vector<std::vector<string>> autoRoute::initAutoRoute(std::vector<std::vector<char>>& matriz,
     std::map<std::vector<int>, std::vector<std::vector<int>>>& interconnections)
 {
     bool isFind = false;
-    std::vector<int> origin;
+    vector<int> origin;
+    vector<vector<int>> temp;
+    vector<vector<int>> routeOfP;
 
     funCopyMatrix(matriz);
 
@@ -92,7 +94,10 @@ std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<
 
                 if (isFind == true)
                 {
-                    semiRoute(origin,destiny);
+                    temp = semiRoute(origin,destiny);
+                    for(auto element : temp)
+                        routeOfP.push_back(element);
+
                     possibleOrigins.push_back(destiny);
                     deleteNumb();
                     break;
@@ -107,11 +112,15 @@ std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<
         {
             isFind = false;
             //se llama a la funcion route() que completa con la PISTA CORRESPONDIENTE en las casillas que alla una "P"
+            route(routeOfP);
             possibleOrigins.clear();
+            routeOfP.clear();
+            temp.clear();
         }
     }
 
-    return copyMatriz;
+    copyMatriz.clear();
+    return matFinal;
 }
 
 /*
@@ -243,12 +252,13 @@ void autoRoute::deleteNumb(void)
     }
 }
 
-void autoRoute::semiRoute(std::vector<int> origin, std::vector<int> destiny)
+vector<vector<int>> autoRoute::semiRoute(std::vector<int> origin, std::vector<int> destiny)
 {
     bool isOrigin = false;
-    std::vector<int> node = destiny;
-    std::vector<int> neighborNode;
-    std::vector<int> nextNeigbor;
+    vector<int> node = destiny;
+    vector<int> neighborNode;
+    vector<int> nextNeigbor;
+    vector<vector<int>> vectorOFp;
     char minValue = 127;
 
     while (!isOrigin)
@@ -285,6 +295,255 @@ void autoRoute::semiRoute(std::vector<int> origin, std::vector<int> destiny)
                 }
             }
         }
+        //condicion para caso especial
+        if((node != nextNeigbor))
+            if(!(node[0] == 15 && node[1] == 4))
+                vectorOFp.push_back(nextNeigbor);
+
         node = nextNeigbor;
+        
+    }
+    return vectorOFp;
+}
+
+/*
+ * Dibuja piola 
+ */
+void autoRoute::route(vector<vector<int>>& routeOfp)//,vector<int>* origin, vector<vector<int>>* destiny)
+{
+    vector<int> tempPos;
+    vector<int> direc;
+    int contador;
+
+    /*
+    cout << routeOfp.size() << endl;
+    for (auto element : routeOfp)
+    {
+        cout << "Coord x: "<<element[0] << " , Coord y: " << element[1] << endl;
+    }
+    */
+    
+    //Tomo una P del vector de p
+    for(auto coord : routeOfp)
+    {
+        //Evaluo una direccion
+        for(int direction = 0; direction < 4; direction++)
+        {
+            switch(direction)
+            {
+                case LEFT:
+                {
+                    //Copio la direccion a la izquierda
+                    tempPos.push_back(coord[0] - 1);
+                    tempPos.push_back(coord[1] );
+
+                    //Busco direcciones en el vector de p
+                    for(auto coord2 : routeOfp)
+                    {
+                        //Si encuentro la misma direccion en el vector de P
+                        if(coord2 == tempPos )
+                        {
+                            direc.push_back(LEFT);
+                        }
+                    }
+                    tempPos.clear();
+                    break;
+                }
+                case RIGHT:
+                {
+                    //Copio la direccion a la derecha
+                    tempPos.push_back(coord[0] + 1);
+                    tempPos.push_back(coord[1]);
+
+                    //Busco direcciones en el vector de p
+                    for(auto coord2 : routeOfp)
+                    {
+                        //Si encuentro la misma direccion en el vector de P
+                        if(coord2 == tempPos )
+                        {
+                            direc.push_back(RIGHT);
+                        }
+                    }
+                    tempPos.clear();
+                    break;
+                }
+                case UP:
+                {
+                    //Copio la direccion a arriba
+                    tempPos.push_back(coord[0]);
+                    tempPos.push_back(coord[1] - 1);
+
+                    //Busco direcciones en el vector de p
+                    for(auto coord2 : routeOfp)
+                    {
+                        //Si encuentro la misma direccion en el vector de P
+                        if(coord2 == tempPos )
+                        {
+                            direc.push_back(UP);
+                        }
+                    }
+                    tempPos.clear();
+                    break;
+                }
+                case DOWN:
+                {
+                    //Copio la direccion abajo
+                    tempPos.push_back(coord[0]);
+                    tempPos.push_back(coord[1] + 1);
+
+                    //Busco direcciones en el vector de p
+                    for(auto coord2 : routeOfp)
+                    {
+                        //Si encuentro la misma direccion en el vector de P
+                        if(coord2 == tempPos )
+                        {
+                            direc.push_back(DOWN);
+                        }
+                    }
+                    tempPos.clear();
+                    break;
+                }
+                
+        
+            }
+        }
+
+        //A esta altura sabemos lo que hay al costado de cada p
+
+        contador = 0;                   
+        for(auto element: direc)            //  0 = no p
+        {                                   //  1 = left p
+            if(element == LEFT)              //  2 = right p
+                contador += 1;              //  3 = left and right p
+            if(element == RIGHT)             //  ...
+                contador += 2;              //
+            if(element == UP)                //
+                contador += 4;              //
+            if(element == DOWN)              //
+                contador += 8;              //
+        }
+        direc.clear();
+
+        switch(contador)
+        {
+            cout << "Llegue aca" << endl;
+            case (15): 
+                matFinal[coord[1]][coord[0]] = (string)("┼");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+
+            case (1):
+                matFinal[coord[1]][coord[0]] = (string)("─");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+            
+            case (2):
+                matFinal[coord[1]][coord[0]] = (string)("─");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+            
+            case (3):
+                matFinal[coord[1]][coord[0]] = (string)("─");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+
+            case (4):
+                matFinal[coord[1]][coord[0]] = (string)("│");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+            
+            case (8):
+                matFinal[coord[1]][coord[0]] = (string)("│");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+            
+            case (12):
+                matFinal[coord[1]][coord[0]] = (string)("│");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+
+            case (14):
+                matFinal[coord[1]][coord[0]] = (string)("├");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+
+            case (10):
+                matFinal[coord[1]][coord[0]] = (string)("┌");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+
+            case (6):
+                matFinal[coord[1]][coord[0]] = (string)("└");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+
+            case (13):
+                matFinal[coord[1]][coord[0]] = (string)("┤");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+
+            case (9):
+                matFinal[coord[1]][coord[0]] = (string)("┐");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+
+            case (5):
+                matFinal[coord[1]][coord[0]] = (string)("┘");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+            
+            case (11):
+                matFinal[coord[1]][coord[0]] = (string)("┬");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+
+            case (7):
+                matFinal[coord[1]][coord[0]] = (string)("┴");
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
+                std::cout << "Entro" <<endl;
+                break;
+            
+            case (0):
+                std::cout << "somos un desastre 1" << endl;
+                break;
+            
+            default:
+                std::cout << "somos un desastre 2" << endl;
+                break;
+        }
+    }
+    
+}
+
+void autoRoute::finalMat(void) 
+{
+    vector<vector<string>> matFinal(copyMatriz.size(), vector<string>(10));
+
+    for (size_t i = 0; i < copyMatriz.size(); ++i) 
+    {
+        for (size_t j = 0; j < copyMatriz[i].size(); ++j) 
+        {
+            matFinal[i][j] = to_string(static_cast<char>(copyMatriz[i][j]));
+        }
+    }
+
+    for(auto row : matFinal)
+    {
+        for(auto element : row)
+            cout << element << endl;
     }
 }
