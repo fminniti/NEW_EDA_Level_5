@@ -31,6 +31,8 @@ class autoRoute
 		std::vector<size_t> matrixLimit;
 		std::vector<std::vector<int>> possibleOrigins;
 
+		void deleteNumb(void);
+
 		std::vector<int> getNeighborNode(std::vector<int>*, int);
 		bool findDestiny(std::vector<int>*, std::vector<int>*);
 

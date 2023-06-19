@@ -87,7 +87,7 @@ std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<
             sortInterconnections(&destiny, &possibleOrigins);
             for (auto& origin : possibleOrigins)
             {
-                //Aca hay que llamar a una funcion que elimine todos los valores numericos dentro de copyMatriz 
+                deleteNumb();
                 isFind = findDestiny(&origin, &destiny);
                 if (isFind == true)
                 {
@@ -100,11 +100,11 @@ std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<
             {
                 //no pudo encontrar un camino y deberiamos emepezar de nuevo(LO DEJAMOS PARA EL FINAL)
             }
-            else
-            {
-                isFind = false;
-                //se llama a la funcion route() que completa con la PISTA CORRESPONDIENTE en las casillas que alla una "P"
-            }
+        }
+        if(isFind == true)
+        {
+            isFind = false;
+            //se llama a la funcion route() que completa con la PISTA CORRESPONDIENTE en las casillas que alla una "P"
         }
     }
 
@@ -201,4 +201,22 @@ std::vector<int> autoRoute::getNeighborNode(std::vector<int>* origin, int orient
         }
     }
     return node;
+}
+
+
+/*
+ * Funcion encargada de eliminar los numeros
+ */
+void autoRoute::deleteNumb(void)
+{
+    for (auto& row : copyMatriz)
+    {
+        for (auto& element : row)
+        {
+            if (element < 35)
+            {
+                element = '.';
+            }
+        }
+    }
 }
