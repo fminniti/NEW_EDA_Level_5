@@ -95,7 +95,6 @@ std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<
                     semiRoute(origin,destiny);
                     possibleOrigins.push_back(destiny);
                     deleteNumb();
-                    printMat();
                     break;
                 }
             }
