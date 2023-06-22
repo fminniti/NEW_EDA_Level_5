@@ -20,12 +20,12 @@
 
 // Código para representar las conexiones de un nodo a otros nodos con caracteres Unicode
 
-const char *unicodeBlockChars[] = {
+string unicodeBlockChars[] = {
     " ", "╵", "╶", "└", "╷", "│", "┌", "├", 
     "╴", "┘", "─", "┴", "┐", "┤", "┬", "┼",
 };
 
-const char *getBlockString(bool up, bool right, bool down, bool left)
+string getBlockString(bool up, bool right, bool down, bool left)
 {
     int index = (up << 0) | (right << 1) | (down << 2) | (left << 3);
     return unicodeBlockChars[index];
@@ -140,10 +140,6 @@ int main()
 
     // Imprimir caracteres Unicode
     std::cout << getBlockString(true, false, true, true)<< std::endl;  // Carácter: ━
-
-    // Ejemplo de uso:
-    printf("Block character: %s\n", getBlockString(true, false, true, true));
-
 
     std::vector<std::vector<char>> matriz;
     std::map<std::vector<int>, std::vector<std::vector<int>>> interconnections;
