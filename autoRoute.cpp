@@ -66,7 +66,7 @@ void autoRoute::funCopyMatrix(std::vector<std::vector<char>>& source)
     matrixLimit.push_back(rows);
 }
 
-std::vector<std::vector<string>> autoRoute::initAutoRoute(std::vector<std::vector<char>>& matriz,
+std::vector<std::vector<char>> autoRoute::initAutoRoute(std::vector<std::vector<char>>& matriz,
     std::map<std::vector<int>, std::vector<std::vector<int>>>& interconnections)
 {
     bool isFind = false;
@@ -119,8 +119,7 @@ std::vector<std::vector<string>> autoRoute::initAutoRoute(std::vector<std::vecto
         }
     }
 
-    copyMatriz.clear();
-    return matFinal;
+    return copyMatriz;
 }
 
 /*
@@ -426,95 +425,79 @@ void autoRoute::route(vector<vector<int>>& routeOfp)//,vector<int>* origin, vect
 
         switch(contador)
         {
-            cout << "Llegue aca" << endl;
             case (15): 
-                matFinal[coord[1]][coord[0]] = (string)("┼");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("┼");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (1):
-                matFinal[coord[1]][coord[0]] = (string)("─");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("─");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (2):
-                matFinal[coord[1]][coord[0]] = (string)("─");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("─");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (3):
-                matFinal[coord[1]][coord[0]] = (string)("─");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("─");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (4):
-                matFinal[coord[1]][coord[0]] = (string)("│");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("│");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (8):
-                matFinal[coord[1]][coord[0]] = (string)("│");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("│");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (12):
-                matFinal[coord[1]][coord[0]] = (string)("│");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("│");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (14):
-                matFinal[coord[1]][coord[0]] = (string)("├");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("├");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (10):
-                matFinal[coord[1]][coord[0]] = (string)("┌");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("┌");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (6):
-                matFinal[coord[1]][coord[0]] = (string)("└");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("└");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (13):
-                matFinal[coord[1]][coord[0]] = (string)("┤");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("┤");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (9):
-                matFinal[coord[1]][coord[0]] = (string)("┐");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("┐");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (5):
-                matFinal[coord[1]][coord[0]] = (string)("┘");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("┘");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (11):
-                matFinal[coord[1]][coord[0]] = (string)("┬");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("┬");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (7):
-                matFinal[coord[1]][coord[0]] = (string)("┴");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                std::cout << "Entro" <<endl;
+                copyMatriz[coord[1]][coord[0]] = (char)("┴");
+                copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (0):
@@ -527,23 +510,4 @@ void autoRoute::route(vector<vector<int>>& routeOfp)//,vector<int>* origin, vect
         }
     }
     
-}
-
-void autoRoute::finalMat(void) 
-{
-    vector<vector<string>> matFinal(copyMatriz.size(), vector<string>(10));
-
-    for (size_t i = 0; i < copyMatriz.size(); ++i) 
-    {
-        for (size_t j = 0; j < copyMatriz[i].size(); ++j) 
-        {
-            matFinal[i][j] = to_string(static_cast<char>(copyMatriz[i][j]));
-        }
-    }
-
-    for(auto row : matFinal)
-    {
-        for(auto element : row)
-            cout << element << endl;
-    }
 }

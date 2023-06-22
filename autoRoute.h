@@ -26,14 +26,11 @@ enum DIRE {LEFT = 0, RIGHT, UP, DOWN};
 class autoRoute
 {
 	public:
-		std::vector<std::vector<string>> initAutoRoute(std::vector<std::vector<char>>& matriz,
+		std::vector<std::vector<char>> initAutoRoute(std::vector<std::vector<char>>& matriz,
 													 std::map<std::vector<int>, std::vector<std::vector<int>>>& interconnections);
-		void finalMat(void);
-
 
 	private:
 		std::vector<std::vector<char>> copyMatriz;
-		std::vector<std::vector<string>> matFinal;
 
 		std::vector<size_t> matrixLimit;
 		std::vector<std::vector<int>> possibleOrigins;
