@@ -1,14 +1,13 @@
 /*          EDA_Level_5.cpp
 *
 * Alumnos:  - Minniti 63286
-*           -
-*           -
+*           - Sammartino 63053
+*           - Mathé 63420
 *
 * Enrutador automático de pistas para PCB
 *
 */
 
-/*          Includes           */
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -18,28 +17,20 @@
 
 #include "autoRoute.h"
 
+#define FILE "C:/Codes/EDA/TP5/NEW_EDA_Level_5/DC_DC_Buck_Converter.txt"
+
+autoRoute router = autoRoute();
+
 // Código para representar las conexiones de un nodo a otros nodos con caracteres Unicode
-
-string unicodeBlockChars[] = {
-    " ", "╵", "╶", "└", "╷", "│", "┌", "├", 
-    "╴", "┘", "─", "┴", "┐", "┤", "┬", "┼",
-};
-
-string getBlockString(bool up, bool right, bool down, bool left)
-{
-    int index = (up << 0) | (right << 1) | (down << 2) | (left << 3);
-    return unicodeBlockChars[index];
-}
-
-void processFile(const std::string& nameFile,
-    std::vector<std::vector<char>>& matriz,
-    std::map<std::vector<int>, std::vector<std::vector<int>>>& interconnections)
+int processFile(const string& nameFile,
+    vector<std::vector<char>>& matriz,
+    map<std::vector<int>, std::vector<std::vector<int>>>& interconnections)
 {
     std::ifstream archivo(nameFile);
 
     if (!archivo) {
         std::cerr << "No se pudo abrir el archivo: " << nameFile << std::endl;
-        return;
+        return 1;
     }
 
     matriz.clear();
@@ -100,10 +91,14 @@ void processFile(const std::string& nameFile,
         }
     }
     archivo.close();
+    return 0;
 }
 
-void printPCB(std::vector<std::vector<char>>& matriz,
-    std::map<std::vector<int>, std::vector<std::vector<int>>>& interconnections)
+/*
+ * Funcion encargada de imprimir matriz final
+*/
+void printPCB(vector<vector<char>>& matriz,
+    map<vector<int>, vector<vector<int>>>& interconnections)
 {
     // Imprimir los valores de la matriz
     std::cout << "Matriz:\n";
@@ -111,7 +106,14 @@ void printPCB(std::vector<std::vector<char>>& matriz,
     {
         for (const auto& value : row)
         {
-            std::cout << value << ' ';
+            if(value >= 'A')
+            {
+                //Se Evaluan caracteres especiales
+                router.printSpecialValue(value);
+                std::cout << ' ';
+            }
+            else
+                std::cout << value << ' ';
         }
         std::cout << '\n';
     }
@@ -120,11 +122,11 @@ void printPCB(std::vector<std::vector<char>>& matriz,
     std::cout << "\nInterconexiones:\n";
     for (const auto& entry : interconnections)
     {
-        const std::vector<int>& pin = entry.first;
-        const std::vector<std::vector<int>>& connections = entry.second;
+        const vector<int>& pin = entry.first;
+        const vector<std::vector<int>>& connections = entry.second;
 
-        std::cout << "Pin: (" << pin[0] << ", " << pin[1] << ")\n";
-        std::cout << "Conexiones:\n";
+        cout << "Pin: (" << pin[0] << ", " << pin[1] << ")\n";
+        cout << "Conexiones:\n";
         for (const auto& connection : connections)
         {
             std::cout << "(" << connection[0] << ", " << connection[1] << ")\n";
@@ -138,15 +140,11 @@ int main()
     // Establecer el código de página a UTF-8
     SetConsoleOutputCP(CP_UTF8);
 
-    // Imprimir caracteres Unicode
-    std::cout << getBlockString(true, false, true, true)<< std::endl;  // Carácter: ━
+    vector<vector<char>> matriz;
+    map<vector<int>, vector<vector<int>>> interconnections;
 
-    std::vector<std::vector<char>> matriz;
-    std::map<std::vector<int>, std::vector<std::vector<int>>> interconnections;
-
-    autoRoute router = autoRoute();
-
-    processFile("C:/Codes/EDA/TP5/NEW_EDA_Level_5/DC_DC_Buck_Converter.txt", matriz, interconnections);
+    if( processFile(FILE, matriz, interconnections))
+        return 1;
 
     matriz = router.initAutoRoute(matriz, interconnections);
 

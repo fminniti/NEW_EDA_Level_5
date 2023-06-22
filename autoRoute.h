@@ -28,6 +28,7 @@ class autoRoute
 	public:
 		std::vector<std::vector<char>> initAutoRoute(std::vector<std::vector<char>>& matriz,
 													 std::map<std::vector<int>, std::vector<std::vector<int>>>& interconnections);
+		void printSpecialValue(char value);
 
 	private:
 		std::vector<std::vector<char>> copyMatriz;
@@ -45,7 +46,7 @@ class autoRoute
 
 		void funCopyMatrix(std::vector<std::vector<char>>&);
 
-		void route(vector<vector<int>>& routeOfp);
+		void route(vector<vector<int>>& routeOfp,vector<int> origin, std::vector<vector<int>> destiny);
 		void sortInterconnections(const std::vector<int>*, std::vector<std::vector<int>>*);
 		bool sortByDistance(const std::vector<int>&, const std::vector<int>&, const std::vector<int>&);
 		double calculateDistance(const std::vector<int>&, const std::vector<int>&);
