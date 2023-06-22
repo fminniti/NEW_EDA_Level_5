@@ -427,77 +427,77 @@ void autoRoute::route(vector<vector<int>>& routeOfp)//,vector<int>* origin, vect
         {
             case (15): 
                 copyMatriz[coord[1]][coord[0]] = (char)("┼");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (1):
                 copyMatriz[coord[1]][coord[0]] = (char)("─");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (2):
                 copyMatriz[coord[1]][coord[0]] = (char)("─");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (3):
                 copyMatriz[coord[1]][coord[0]] = (char)("─");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (4):
                 copyMatriz[coord[1]][coord[0]] = (char)("│");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (8):
                 copyMatriz[coord[1]][coord[0]] = (char)("│");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (12):
                 copyMatriz[coord[1]][coord[0]] = (char)("│");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (14):
                 copyMatriz[coord[1]][coord[0]] = (char)("├");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (10):
                 copyMatriz[coord[1]][coord[0]] = (char)("┌");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (6):
                 copyMatriz[coord[1]][coord[0]] = (char)("└");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (13):
                 copyMatriz[coord[1]][coord[0]] = (char)("┤");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (9):
                 copyMatriz[coord[1]][coord[0]] = (char)("┐");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (5):
                 copyMatriz[coord[1]][coord[0]] = (char)("┘");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (11):
                 copyMatriz[coord[1]][coord[0]] = (char)("┬");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (7):
                 copyMatriz[coord[1]][coord[0]] = (char)("┴");
-                copyMatriz[coord[1]][coord[0]] = (char)('K');
+                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (0):

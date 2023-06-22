@@ -1,4 +1,4 @@
-﻿/*          EDA_Level_5.cpp
+/*          EDA_Level_5.cpp
 *
 * Alumnos:  - Minniti 63286
 *           -
@@ -18,7 +18,18 @@
 
 #include "autoRoute.h"
 
-using namespace std;
+// Código para representar las conexiones de un nodo a otros nodos con caracteres Unicode
+
+const char *unicodeBlockChars[] = {
+    " ", "╵", "╶", "└", "╷", "│", "┌", "├", 
+    "╴", "┘", "─", "┴", "┐", "┤", "┬", "┼",
+};
+
+const char *getBlockString(bool up, bool right, bool down, bool left)
+{
+    int index = (up << 0) | (right << 1) | (down << 2) | (left << 3);
+    return unicodeBlockChars[index];
+}
 
 void processFile(const std::string& nameFile,
     std::vector<std::vector<char>>& matriz,
@@ -128,8 +139,10 @@ int main()
     SetConsoleOutputCP(CP_UTF8);
 
     // Imprimir caracteres Unicode
-    std::cout << u8"\u2501" << std::endl;  // Carácter: ━
-    std::cout << u8"\u2503" << std::endl;  // Carácter: ┃
+    std::cout << getBlockString(true, false, true, true)<< std::endl;  // Carácter: ━
+
+    // Ejemplo de uso:
+    printf("Block character: %s\n", getBlockString(true, false, true, true));
 
 
     std::vector<std::vector<char>> matriz;

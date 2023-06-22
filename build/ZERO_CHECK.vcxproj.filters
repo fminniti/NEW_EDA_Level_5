@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Codes\EDA\TP5\NEW_EDA_Level_5\build\CMakeFiles\f6052671d54f51445eba39be2a1cdb60\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{3B20A335-AAAE-354D-9EAD-7A63BB632916}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

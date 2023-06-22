@@ -1,0 +1,10 @@
+^C:\CODES\EDA\TP5\NEW_EDA_LEVEL_5\CMAKELISTS.TXT
+setlocal
+C:\Windows\bin\cmake.exe -SC:/Codes/EDA/TP5/NEW_EDA_Level_5 -BC:/Codes/EDA/TP5/NEW_EDA_Level_5/build --check-stamp-file C:/Codes/EDA/TP5/NEW_EDA_Level_5/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
