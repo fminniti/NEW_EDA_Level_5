@@ -14,6 +14,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <windows.h>
 
 #include "autoRoute.h"
 
@@ -123,6 +124,14 @@ void printPCB(std::vector<std::vector<char>>& matriz,
 
 int main()
 {
+    // Establecer el código de página a UTF-8
+    SetConsoleOutputCP(CP_UTF8);
+
+    // Imprimir caracteres Unicode
+    std::cout << u8"\u2501" << std::endl;  // Carácter: ━
+    std::cout << u8"\u2503" << std::endl;  // Carácter: ┃
+
+
     std::vector<std::vector<char>> matriz;
     std::map<std::vector<int>, std::vector<std::vector<int>>> interconnections;
 

@@ -1,7 +1,8 @@
 ﻿# CMakeList.txt: proyecto de CMake para NEW_EDA_Level_5, incluya el origen y defina
 # la lógica específica del proyecto aquí.
 #
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required(VERSION 3.1.4)
+set(CMAKE_CXX_STANDARD 11)
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
