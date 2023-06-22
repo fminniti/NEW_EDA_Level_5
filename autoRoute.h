@@ -36,8 +36,6 @@ class autoRoute
 		std::vector<size_t> matrixLimit;
 		std::vector<std::vector<int>> possibleOrigins;
 
-		void printMat();
-
 		void deleteNumb(void);
 		vector<vector<int>> semiRoute(std::vector<int> , std::vector<int>);
 

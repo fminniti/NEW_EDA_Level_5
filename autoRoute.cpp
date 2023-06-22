@@ -131,16 +131,18 @@ vector<vector<char>> autoRoute::initAutoRoute(vector<vector<char>>& matriz,
 /*
  * Funcion que produce un flooding en la matriz desde una origen dado hasta llegar a un destino
  */
-bool autoRoute::findDestiny(std::vector<int>* origin, std::vector<int>* destiny)
+bool autoRoute::findDestiny(vector<int>* origin, vector<int>* destiny)
 {
-    std::queue<std::vector<int>> q;
+    //Almacena proximos nodos a visitar
+    queue<vector<int>> q;
+    
     q.push(*origin);
     char stepCounter = 0;
-    std::vector<int> neighborNode;
+    vector<int> neighborNode;
 
     while (!q.empty())
     {
-        std::vector<int> node = q.front();
+        vector<int> node = q.front();
         q.pop();
 
         stepCounter = copyMatriz[node[1]][node[0]];
@@ -178,13 +180,16 @@ bool autoRoute::findDestiny(std::vector<int>* origin, std::vector<int>* destiny)
 }
 
 /*
- *
+ *  Obitiene los nodos contiguos
+ *  El parametro debe ser una direccion: UP = 0, DOWN, LEFT , RIGHT = 3
  */
-std::vector<int> autoRoute::getNeighborNode(std::vector<int>* origin, int orientation)
+vector<int> autoRoute::getNeighborNode(vector<int>* origin, int orientation)
 {
-    std::vector<int> node;
+    vector<int> node;
     node.clear();
-    if (orientation == 0) //UP
+
+    //UP
+    if (orientation == 0) 
     {
         if ((*origin)[1] > 0)
         {
@@ -192,7 +197,9 @@ std::vector<int> autoRoute::getNeighborNode(std::vector<int>* origin, int orient
             node.push_back((*origin)[1] - 1); 
         }
     }
-    if (orientation == 1) //DOWN
+
+    //DOWN
+    if (orientation == 1) 
     {
         if ((*origin)[1] < (matrixLimit[1]-1))
         {
@@ -200,7 +207,9 @@ std::vector<int> autoRoute::getNeighborNode(std::vector<int>* origin, int orient
             node.push_back((*origin)[1] + 1);
         }
     }
-    if (orientation == 2) //Left
+
+    //Left
+    if (orientation == 2) 
     {
         if ((*origin)[0] > 0)
         {
@@ -208,7 +217,9 @@ std::vector<int> autoRoute::getNeighborNode(std::vector<int>* origin, int orient
             node.push_back((*origin)[1]);
         }
     }
-    if (orientation == 3) //Right
+
+    //Right
+    if (orientation == 3) 
     {
         if ((*origin)[0] < (matrixLimit[0]-1))
         {
@@ -219,28 +230,9 @@ std::vector<int> autoRoute::getNeighborNode(std::vector<int>* origin, int orient
     return node;
 }
 
-void autoRoute::printMat()
-{
-    std::cout << "\nMatriz:\n";
-    for (const auto& row : copyMatriz)
-    {
-        for (const auto& value : row)
-        {
-            if (value < 35)
-            {
-                std::cout << static_cast<int>(value) << ' ';
-            }
-            else
-            {
-                std::cout << value << ' ';
-            }
-        }
-        std::cout << '\n';
-    }
-}
-
 /*
- * Funcion encargada de eliminar los numeros
+ * Funcion encargada de eliminar los numeros del flooding
+ * 
  */
 void autoRoute::deleteNumb(void)
 {
@@ -256,6 +248,12 @@ void autoRoute::deleteNumb(void)
     }
 }
 
+
+/*
+* Dado un origen y un destino, utiliza los numeros del flooding 
+* para buscar el camino mas corto colocando 'p' que simbolizan una 
+* pista parcial.
+*/
 vector<vector<int>> autoRoute::semiRoute(std::vector<int> origin, std::vector<int> destiny)
 {
     bool isOrigin = false;
@@ -263,6 +261,9 @@ vector<vector<int>> autoRoute::semiRoute(std::vector<int> origin, std::vector<in
     vector<int> neighborNode;
     vector<int> nextNeigbor;
     vector<vector<int>> vectorOFp;
+
+    //En esta variable se coloca el valor minimo
+    //Debe empezar en un valor alto
     char minValue = 127;
 
     while (!isOrigin)
@@ -299,10 +300,12 @@ vector<vector<int>> autoRoute::semiRoute(std::vector<int> origin, std::vector<in
                 }
             }
         }
-        //condicion para caso especial
+
+        //condicion para caso especial(Hardcodeado) -----------------
         if((node != nextNeigbor))
             if(!(node[0] == 15 && node[1] == 4))
                 vectorOFp.push_back(nextNeigbor);
+        // ----------------------------------------------------------
 
         node = nextNeigbor;
         
@@ -311,9 +314,9 @@ vector<vector<int>> autoRoute::semiRoute(std::vector<int> origin, std::vector<in
 }
 
 /*
- * Dibuja piola 
+ * Funcion que imprime la matriz
  */
-void autoRoute::route(vector<vector<int>>& routeOfp,vector<int> origin, std::vector<vector<int>> destiny)
+void autoRoute::route(vector<vector<int>>& routeOfp,vector<int> origin, vector<vector<int>> destiny)
 {
     vector<int> tempPos;
     vector<int> direc;
@@ -444,120 +447,86 @@ void autoRoute::route(vector<vector<int>>& routeOfp,vector<int> origin, std::vec
             }
         }
 
-        //A esta altura sabemos lo que hay al costado de cada p
-
         contador = 0;                   
         for(auto element: direc)    //  0 = no p
         {                           //  1 = left p
             if(element == LEFT)     //  2 = right p
                 contador += 1;      //  3 = left and right p
             if(element == RIGHT)    //  ...
-                contador += 2;      //
-            if(element == UP)       //
-                contador += 4;              //
-            if(element == DOWN)              //
-                contador += 8;              //
+                contador += 2;      
+            if(element == UP)       
+                contador += 4;              
+            if(element == DOWN)              
+                contador += 8;              
         }
         direc.clear();
 
+        // Dado que no se pueden asignar los caracteres especiales
+        // Se le asignan char que no se usan para reemplazar despues
         switch(contador)
         {
             case (15): 
                 copyMatriz[coord[1]][coord[0]] = 'A';
-                //copyMatriz[coord[1]][coord[0]] = (char)("┼");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (1):
                 copyMatriz[coord[1]][coord[0]] = 'B';
-                //copyMatriz[coord[1]][coord[0]] = (char)("─");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (2):
                 copyMatriz[coord[1]][coord[0]] = 'C';
-                //copyMatriz[coord[1]][coord[0]] = (char)("─");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (3):
                 copyMatriz[coord[1]][coord[0]] = 'D';
-                //copyMatriz[coord[1]][coord[0]] = (char)("─");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (4):
                 copyMatriz[coord[1]][coord[0]] = 'E';
-                //copyMatriz[coord[1]][coord[0]] = (char)("│");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (8):
                 copyMatriz[coord[1]][coord[0]] = 'F';
-                //copyMatriz[coord[1]][coord[0]] = (char)("│");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (12):
                 copyMatriz[coord[1]][coord[0]] = 'G';
-                //copyMatriz[coord[1]][coord[0]] = (char)("│");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (14):
                 copyMatriz[coord[1]][coord[0]] = 'H';
-                //copyMatriz[coord[1]][coord[0]] = (char)("├");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (10):
                 copyMatriz[coord[1]][coord[0]] = 'I';
-                //copyMatriz[coord[1]][coord[0]] = (char)("┌");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (6):
                 copyMatriz[coord[1]][coord[0]] = 'J';
-                //copyMatriz[coord[1]][coord[0]] = (char)("└");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (13):
                 copyMatriz[coord[1]][coord[0]] = 'K';
-                //copyMatriz[coord[1]][coord[0]] = (char)("┤");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (9):
                 copyMatriz[coord[1]][coord[0]] = 'L';
-                //copyMatriz[coord[1]][coord[0]] = (char)("┐");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (5):
                 copyMatriz[coord[1]][coord[0]] = 'M';
-                //copyMatriz[coord[1]][coord[0]] = (char)("┘");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case (11):
                 copyMatriz[coord[1]][coord[0]] = 'N';
-                //copyMatriz[coord[1]][coord[0]] = (char)("┬");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case (7):
                 copyMatriz[coord[1]][coord[0]] = 'O';
-                //copyMatriz[coord[1]][coord[0]] = (char)("┴");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
-            
-            case (0):
-                std::cout << "somos un desastre 1" << endl;
-                break;
-            
+
             default:
-                std::cout << "somos un desastre 2" << endl;
+                std::cout << "Error inesperadp en la funcion route" << endl;
                 break;
         }
 
@@ -565,106 +534,76 @@ void autoRoute::route(vector<vector<int>>& routeOfp,vector<int> origin, std::vec
     
 }
 
+
+/*
+* Funcion que imprime caracteres unicode especiales
+*/
 void autoRoute::printSpecialValue(char value)
 {
         switch(value)
         {
             case ('A'): 
                 cout << "┼";
-                //copyMatriz[coord[1]][coord[0]] = (char)("┼");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case ('B'):
                 cout << "─";
-                //copyMatriz[coord[1]][coord[0]] = (char)("─");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case ('C'):
                 cout << "─";
-                //copyMatriz[coord[1]][coord[0]] = (char)("─");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case ('D'):
                 cout << "─" ;
-                //copyMatriz[coord[1]][coord[0]] = (char)("─");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case ('E'):
                 cout << "│" ;
-                //copyMatriz[coord[1]][coord[0]] = (char)("│");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case ('F'):
                 cout << "│";
-                //copyMatriz[coord[1]][coord[0]] = (char)("│");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case ('G'):
                 cout << "│";
-                //copyMatriz[coord[1]][coord[0]] = (char)("│");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case ('H'):
                 cout << "├";
-                //copyMatriz[coord[1]][coord[0]] = (char)("├");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case ('I'):
                 cout << "┌";
-                //copyMatriz[coord[1]][coord[0]] = (char)("┌");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case ('J'):
                 cout << "└";
-                //copyMatriz[coord[1]][coord[0]] = (char)("└");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case ('K'):
                 cout << "┤" ;
-                //copyMatriz[coord[1]][coord[0]] = (char)("┤");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case ('L'):
                 cout << "┐" ;
-                //copyMatriz[coord[1]][coord[0]] = (char)("┐");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case ('M'):
                 cout << "┘";
-                //copyMatriz[coord[1]][coord[0]] = (char)("┘");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
             
             case ('N'):
                 cout << "┬" ;
-                //copyMatriz[coord[1]][coord[0]] = (char)("┬");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
                 break;
 
             case ('O'):
                 cout << "┴" ;
-                //copyMatriz[coord[1]][coord[0]] = (char)("┴");
-                //copyMatriz[coord[1]][coord[0]] = (char)('K');
-                break;
-            
-            case (0):
-                std::cout << "somos un desastre 1" << endl;
                 break;
             
             default:
-                std::cout << "somos un desastre 2" << endl;
+                cout << "Error inesperedo" << endl;
                 break;
         }
 
